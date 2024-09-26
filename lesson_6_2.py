@@ -1,5 +1,22 @@
 """Lesson 6"""
 
+# Исключения - блочная конструкция try, exception, 
+# else - выводим только безошибочные результаты.
+# finaly - всегда выводим блок
+# 
+# 
+# Так же есть конструкция raise Exception() - где мы можем описать ошибку.
+# 
+# 
+# 
+# try:
+    # a = int(input("Enter"))
+# exceprion:
+    # print("Всё окк")
+
+
+
+
 # Homework 6
 # 1. Оптимизировать алгоритм. +
 # 2. Переименовать функции. +
@@ -43,12 +60,11 @@ def main():
         except Exception as e:
             print(f"Я cловил ошибку: {e}")
             continue
-        
-        if (validate_name(enter_name) and validate_age(enter_age)) is None:
-            print(get_passport_advice(enter_age))
-            print(f"Привет {enter_name}, тебе {enter_age} лет. Ты ввел(а) корректные данные")
-            guess_number_game()
-            break
+    
+        print(get_passport_advice(enter_age))
+        print(f"Привет {enter_name}, тебе {enter_age} лет. Ты ввел(а) корректные данные")
+        guess_number_game()
+        break
 
 
 def clear_whitespaces(name):
