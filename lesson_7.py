@@ -63,6 +63,7 @@ def validate_name(name: str):
 
     if name.count(' ') <= 1 and len(name) >= 3:
         return
+    
     raise Exception('Некорректно введено имя.') # заканчивается цикл
                              
                 
@@ -71,8 +72,10 @@ def validate_age(age: int):
 
     if age <= 0 or age > 110:
         raise Exception("Дружочек, ты что-то не то ввел.")
+    
     elif age <= 14:
         raise Exception(f"Твой возраст {age} сильно мал.")
+    
     return
 
 
@@ -81,10 +84,13 @@ def get_passport_advice(age: int) -> str:
 
     if 16 <= age <= 17:
         return f"Твой возраст {age}. Не забудь получить первый паспорт."
+    
     elif 25 <= age <= 26:
         return f"Твой возраст {age}. Нужно заменить паспорт."
+    
     elif 45 <= age <= 46:
         return f"Твой возраст {age}. Нужно заменить паспорт 2-ой раз."
+    
     else:
         return "Нет необходимости менять паспорт"
 
@@ -98,9 +104,11 @@ def guess_number_game():
     while True:
         n += 1
         enter_number = int(input('Проверь свою удачу. Введи число от 0 до 5: '))
+        
         if enter_number == m:
             print(f"Успех, Загаданное цисло = {m}. Отгадано с {n} попыток. Игра создана {__author__}")
             break
+
         print(f"Повезет в любви, Загаданное цисло = {m}")
 
 
