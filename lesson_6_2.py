@@ -32,41 +32,6 @@
 
 import random
 
-def main():
-# Выполнения функций ввода имени, ввода возраста и других функций
-    number = 0
-    while True:
-        number += 1
-        print(f"Попытка ввода данных №{number}.")
-        enter_name = input('Введите имя: ')
-        enter_age = input('Введите возраст: ')
-
-        enter_name = clear_whitespaces(enter_name)
-
-        try:
-            enter_age = int(clear_whitespaces(enter_age))
-        except ValueError:
-            print("Ошибка. Введите возраст цифрами")
-            continue
-            
-        try:
-            validate_name(enter_name)
-        except Exception as e:
-            print(f"Я cловил ошибку, {e}")
-            continue
-
-        try:
-            validate_age(enter_age)
-        except Exception as e:
-            print(f"Я cловил ошибку: {e}")
-            continue
-    
-        print(get_passport_advice(enter_age))
-        print(f"Привет {enter_name}, тебе {enter_age} лет. Ты ввел(а) корректные данные")
-        guess_number_game()
-        break
-
-
 def clear_whitespaces(name):
 # Удаление пробелов сначала и сконца значения
     return name.strip()
@@ -111,6 +76,41 @@ def guess_number_game():
             print(f"Успех, Загаданное цисло = {m}. Отгадано с {n} попыток")
             break
         print(f"Повезет в любви, Загаданное цисло = {m}")
+
+
+def main():
+# Выполнения функций ввода имени, ввода возраста и других функций
+    number = 0
+    while True:
+        number += 1
+        print(f"Попытка ввода данных №{number}.")
+        enter_name = input('Введите имя: ')
+        enter_age = input('Введите возраст: ')
+
+        enter_name = clear_whitespaces(enter_name)
+
+        try:
+            enter_age = int(clear_whitespaces(enter_age))
+        except ValueError:
+            print("Ошибка. Введите возраст цифрами")
+            continue
+            
+        try:
+            validate_name(enter_name)
+        except Exception as e:
+            print(f"Я cловил ошибку, {e}")
+            continue
+
+        try:
+            validate_age(enter_age)
+        except Exception as e:
+            print(f"Я cловил ошибку: {e}")
+            continue
+    
+        print(get_passport_advice(enter_age))
+        print(f"Привет {enter_name}, тебе {enter_age} лет. Ты ввел(а) корректные данные")
+        guess_number_game()
+        break
 
 
 main()
