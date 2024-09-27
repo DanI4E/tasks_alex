@@ -1,4 +1,6 @@
+import random
 
+__author__ = "Danil Cherinov"
 
 #  Принципы ООП (объектно ориентированного програмирования):
 # Класс -  шаблон, описание объекта. 
@@ -26,3 +28,120 @@
 #  git add *название файла - добавление файла в репозиторий
 #  git commit -m *текст коммита - коммит файла, папки с описанием того что сделали
 #  git diff *название файла- посмотреть изменение кода
+
+
+class Data:
+    def __init__(self, name: str, age: str):
+        self.name = name
+        self.age = age
+        self.clear_whitespaces()
+        self.age = int(age)
+
+    def clear_whitespaces(self):
+        self.name = self.name.strip()
+        self.age = self.age.strip()
+
+
+class Validator():
+    def __init__(self):
+        self.data_history: list[Data] = []
+
+    def validate(self, data: Data):
+        self.data_history.append(data)
+        self.validate_name()
+        self.validate_age()
+    
+    def validate_name(self):
+        return self.data_history[0].name
+
+    def validate_age(self):
+        return self.data_history[0].age
+
+
+def validate_name(name: str):
+    """ Проверка имени на количество символов и что в имени есть только один пробел """
+
+    if name.count(' ') <= 1 and len(name) >= 3:
+        return
+    raise Exception('Некорректно введено имя.') # заканчивается цикл
+                             
+                
+def validate_age(age: int):
+    """ Проверка возраста """
+
+    if age <= 0 or age > 110:
+        raise Exception("Дружочек, ты что-то не то ввел.")
+    elif age <= 14:
+        raise Exception(f"Твой возраст {age} сильно мал.")
+    return
+
+
+def get_passport_advice(age: int) -> str:
+    """ Рекомендации по замене паспорта """
+
+    if 16 <= age <= 17:
+        return f"Твой возраст {age}. Не забудь получить первый паспорт."
+    elif 25 <= age <= 26:
+        return f"Твой возраст {age}. Нужно заменить паспорт."
+    elif 45 <= age <= 46:
+        return f"Твой возраст {age}. Нужно заменить паспорт 2-ой раз."
+    else:
+        return "Нет необходимости менять паспорт"
+
+
+def guess_number_game():
+    """ Игра угадай число от 1 до 5 """
+
+    n = 0
+    m = random.randint(0,5)
+
+    while True:
+        n += 1
+        enter_number = int(input('Проверь свою удачу. Введи число от 0 до 5: '))
+        if enter_number == m:
+            print(f"Успех, Загаданное цисло = {m}. Отгадано с {n} попыток. Игра создана {__author__}")
+            break
+        print(f"Повезет в любви, Загаданное цисло = {m}")
+
+
+def main():
+    """ Выполнения функций ввода имени, ввода возраста и других функций """
+
+    number = 0
+
+    while True:
+        number += 1
+        print(f"Попытка ввода данных №{number}.")
+        enter_name = input('Введите имя: ')
+        enter_age = input('Введите возраст: ')
+
+        data = Data(enter_name, enter_age)
+
+        validator = Validator()
+        validator.validate(data)
+
+        # try:
+            # enter_age = int(clear_whitespaces(enter_age))
+        # except ValueError:
+            # print("Ошибка. Введите возраст цифрами")
+            # continue
+            
+        try:
+            validate_name(validator.validate_name())
+        except Exception as e:
+            print(f"Я cловил ошибку, {e}")
+            continue
+
+        try:
+            validate_age(validator.validate_age())
+        except Exception as e:
+            print(f"Я cловил ошибку: {e}")
+            continue
+    
+        print(get_passport_advice(validator.validate_age()))
+        print(f"Привет {enter_name}, тебе {enter_age} лет. Ты ввел(а) корректные данные")
+        guess_number_game()
+        break
+
+if __name__ == '__main__':
+    main()
