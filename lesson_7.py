@@ -31,6 +31,8 @@ __author__ = "Danil Cherinov"
 #  git branch *название ветки - создание ветки
 #  git switch *название ветки - перейти в созданную ветку
 #  git push origin * название ветки - запушить в github
+#  git branch -m * new-name -  изменение названия ветки
+#  git rm * название файла - удаление файла
 
 
 
