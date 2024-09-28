@@ -1,6 +1,6 @@
 import random
-from exceptions import ValidationError
-from validator import Validator, Data#, DataWithDate
+from exceptions import ValidateError
+from validator import Validator, Data, DataWithDate
 
 
 __author__ = "Danil Cherinov"
@@ -84,42 +84,42 @@ def guess_number_game():
 def main():
     """ Выполнения функций ввода имени, ввода возраста и других функций """
 
-    number = 0
+    counter = 0
+    last_attempt = 0
+    first_attempt = 0
     validate = Validator()
 
     while True:
-        number += 1
+        counter += 1
         enter_name = input('Введите имя: ')
         enter_age = input('Введите возраст: ')
 
+        if counter == 1:
+            data_with_date = DataWithDate()
+            first_attempt = data_with_date.time
+
         data = Data(enter_name, enter_age)
 
-        validate.validate(data)
-
-        print(validate._validate_name(), validate._validate_age())
-
-        # try:
-            # enter_age = int(clear_whitespaces(enter_age))
-        # except ValueError:
-            # print("Ошибка. Введите возраст цифрами")
-            # continue
-            
         try:
-            validate._validate_null()
-            validate._validate_name()
-            validate._validate_age()
-        except ValidationError as e:
+            validate.validate(data)
+
+        except ValidateError as e:
             print(f"Я cловил ошибку : {e}")
-            print(f"Попытка ввода данных №{number}.")
+            print(f"Попытка ввода данных №{counter}.")
             continue
+        
+        last_attempt = counter
+        if counter == last_attempt:
+            data_with_date = DataWithDate()
+            last_attempt = data_with_date.time
 
-        # data_with_date = DataWithDate()
-# 
-        # print(data_with_date)
-
+        time_difference = last_attempt - first_attempt
 
         print(get_passport_advice(validate._validate_age()))
-        print(f"Привет {enter_name}, тебе {enter_age} лет. Ты ввел(а) корректные данные c №{number} попытки.")
+        print(f"Привет {enter_name.title()}, тебе {enter_age} лет. " 
+              f"Первая попытка ввода данных была в {first_attempt.strftime('%H:%M:%S')}. "
+              f"Ты ввел(а) корректные данные c №{counter} попытки в {last_attempt.strftime('%H:%M:%S')}.\n"
+              f"Разница времени между первой и последней попыткой ввода данных: {time_difference.seconds//3600}:{(time_difference.seconds//60)%60}:{time_difference.seconds//1}")
         guess_number_game()
         break
 

@@ -1,2 +1,2 @@
-class ValidationError(Exception):
+class ValidateError(Exception):
     """Класс ошибки валидации данных"""
