@@ -1,4 +1,7 @@
 import random
+from exceptions import ValidationError
+from validator import Validator, Data#, DataWithDate
+
 
 __author__ = "Danil Cherinov"
 
@@ -45,55 +48,6 @@ __author__ = "Danil Cherinov"
 # 3. Счетчик попыток оставить на месте как есть
 
 
-class Data:
-    def __init__(self, name: str, age: str):
-        self.name = name
-        self.age = age
-        self.clear_whitespaces()
-        self.age = int(age)
-
-    def clear_whitespaces(self):
-        self.name = self.name.strip()
-        self.age = self.age.strip()
-
-
-class Validator():
-    def __init__(self):
-        self.data_history: list[Data] = []
-
-    def validate(self, data: Data):
-        self.data_history.append(data)
-        self.validate_name()
-        self.validate_age()
-    
-    def validate_name(self):
-        return self.data_history[0].name
-
-    def validate_age(self):
-        return self.data_history[0].age
-
-
-def validate_name(name: str):
-    """ Проверка имени на количество символов и что в имени есть только один пробел """
-
-    if name.count(' ') <= 1 and len(name) >= 3:
-        return
-    
-    raise Exception('Некорректно введено имя.') # заканчивается цикл
-                             
-                
-def validate_age(age: int):
-    """ Проверка возраста """
-
-    if age <= 0 or age > 110:
-        raise Exception("Дружочек, ты что-то не то ввел.")
-    
-    elif age <= 14:
-        raise Exception(f"Твой возраст {age} сильно мал.")
-    
-    return
-
-
 def get_passport_advice(age: int) -> str:
     """ Рекомендации по замене паспорта """
 
@@ -131,17 +85,18 @@ def main():
     """ Выполнения функций ввода имени, ввода возраста и других функций """
 
     number = 0
+    validate = Validator()
 
     while True:
         number += 1
-        print(f"Попытка ввода данных №{number}.")
         enter_name = input('Введите имя: ')
         enter_age = input('Введите возраст: ')
 
         data = Data(enter_name, enter_age)
 
-        validator = Validator()
-        validator.validate(data)
+        validate.validate(data)
+
+        print(validate._validate_name(), validate._validate_age())
 
         # try:
             # enter_age = int(clear_whitespaces(enter_age))
@@ -150,19 +105,21 @@ def main():
             # continue
             
         try:
-            validate_name(validator.validate_name())
-        except Exception as e:
-            print(f"Я cловил ошибку, {e}")
+            validate._validate_null()
+            validate._validate_name()
+            validate._validate_age()
+        except ValidationError as e:
+            print(f"Я cловил ошибку : {e}")
+            print(f"Попытка ввода данных №{number}.")
             continue
 
-        try:
-            validate_age(validator.validate_age())
-        except Exception as e:
-            print(f"Я cловил ошибку: {e}")
-            continue
-    
-        print(get_passport_advice(validator.validate_age()))
-        print(f"Привет {enter_name}, тебе {enter_age} лет. Ты ввел(а) корректные данные")
+        # data_with_date = DataWithDate()
+# 
+        # print(data_with_date)
+
+
+        print(get_passport_advice(validate._validate_age()))
+        print(f"Привет {enter_name}, тебе {enter_age} лет. Ты ввел(а) корректные данные c №{number} попытки.")
         guess_number_game()
         break
 
