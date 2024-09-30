@@ -2,6 +2,7 @@
 
 import random
 from exceptions import ValidateError
+from datetime import datetime
 from validator import Validator, Data, DataWithDate
 
 
@@ -62,6 +63,7 @@ __author__ = "Danil Cherinov"
 #     А также выбрасывать исключения ValidationError вместо Exception. Если переменная data_history пуста, тогда выбрасывать исключение ValueError.
 # 4. В вашем основном файле, где вся текущая домашка:
 #     4.1. В самом верху необходимо импортировать класс Validator из модуля validator.
+
 #     4.2. В самом верху необходимо импортировать класс ValidationError из модуля exceptions.
 #     4.3. В функции main до цикла создать объект класса. Вызвать метод validate вместо тех функций валидаций, которые были написаны в домашках ранее - эти функции необходимо удалить из этого файла. 
 #           Обрабатывать ошибку ValidationError вместо Exception.
@@ -118,8 +120,7 @@ def main():
     """ Выполнения функций ввода имени, ввода возраста и других функций """
 
     counter = 0
-    last_attempt = 0
-    first_attempt = 0
+    first_attempt = datetime.utcnow()
     validate = Validator()
 
     while True:
@@ -127,11 +128,11 @@ def main():
         enter_name = input('Введите имя: ')
         enter_age = input('Введите возраст: ')
 
-        if counter == 1:
-            data_with_date = DataWithDate()
-            first_attempt = data_with_date.time
+        data = DataWithDate(enter_name, enter_age)
+        print(data.time)
 
-        data = Data(enter_name, enter_age)
+        if counter == 1:
+            first_attempt = data.time
 
         try:
             validate.validate(data)
@@ -139,15 +140,12 @@ def main():
         except ValidateError as e:
             print(f"Я cловил ошибку : {e}\nПопытка ввода данных №{counter}.")
             continue
-        
-        data_with_date = DataWithDate()
-        last_attempt = data_with_date.time
 
-        time_difference = last_attempt - first_attempt
+        time_difference = data.time - first_attempt
 
         print(get_passport_advice(data.age), f"\nПривет {enter_name.title()}, тебе {enter_age} лет. " 
               f"Первая попытка ввода данных была в {first_attempt.strftime('%H:%M:%S')}. "
-              f"Ты ввел(а) корректные данные c №{counter} попытки в {last_attempt.strftime('%H:%M:%S')}.\n"
+              f"Ты ввел(а) корректные данные c №{counter} попытки в {data.time.strftime('%H:%M:%S')}.\n"
               f"Разница времени между первой и последней попыткой ввода данных: {format_timedelta(time_difference)}")
         guess_number_game()
         break
