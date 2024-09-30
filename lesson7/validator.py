@@ -49,14 +49,14 @@ class Validator:
         return age
     
     def _validate_null(self):
-        """Проверка на пустоту"""
+        """ Проверка на пустоту """
 
         if not self.data_history:
            raise ValueError("Проверка на пустоту data_history") 
 
     
     def validate(self, data: Data):
-        """Валидация :)"""
+        """ Валидация """
 
         self.data_history.append(data)
         self._validate_name()
