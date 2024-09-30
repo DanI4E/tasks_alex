@@ -81,6 +81,14 @@ def guess_number_game():
         print(f"Повезет в любви, Загаданное цисло = {m}")
 
 
+def format_timedelta(td):
+    """ Перевод значения timedelta к format(hours, minutes, seconds)"""
+
+    minutes, seconds = divmod(td.seconds + td.days * 86400, 60)
+    hours, minutes = divmod(minutes, 60)
+    return '{:d}:{:02d}:{:02d}'.format(hours, minutes, seconds)
+
+
 def main():
     """ Выполнения функций ввода имени, ввода возраста и других функций """
 
@@ -104,22 +112,18 @@ def main():
             validate.validate(data)
 
         except ValidateError as e:
-            print(f"Я cловил ошибку : {e}")
-            print(f"Попытка ввода данных №{counter}.")
+            print(f"Я cловил ошибку : {e}\nПопытка ввода данных №{counter}.")
             continue
         
-        last_attempt = counter
-        if counter == last_attempt:
-            data_with_date = DataWithDate()
-            last_attempt = data_with_date.time
+        data_with_date = DataWithDate()
+        last_attempt = data_with_date.time
 
         time_difference = last_attempt - first_attempt
 
-        print(get_passport_advice(validate._validate_age()))
-        print(f"Привет {enter_name.title()}, тебе {enter_age} лет. " 
+        print(get_passport_advice(data.age), f"\nПривет {enter_name.title()}, тебе {enter_age} лет. " 
               f"Первая попытка ввода данных была в {first_attempt.strftime('%H:%M:%S')}. "
               f"Ты ввел(а) корректные данные c №{counter} попытки в {last_attempt.strftime('%H:%M:%S')}.\n"
-              f"Разница времени между первой и последней попыткой ввода данных: {time_difference.seconds//3600}:{(time_difference.seconds//60)%60}:{time_difference.seconds//1}")
+              f"Разница времени между первой и последней попыткой ввода данных: {format_timedelta(time_difference)}")
         guess_number_game()
         break
 
