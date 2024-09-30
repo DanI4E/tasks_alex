@@ -129,7 +129,6 @@ def main():
         enter_age = input('Введите возраст: ')
 
         data = DataWithDate(enter_name, enter_age)
-        print(data.time)
 
         if counter == 1:
             first_attempt = data.time
