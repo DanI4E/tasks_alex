@@ -17,7 +17,8 @@ class Data:
 class DataWithDate(Data):
     """Вывод текущего времени в utc"""
     
-    def __init__(self):
+    def __init__(self, name: str, age: str):
+        super().__init__(name, age)
         self.time = datetime.utcnow()
 
 class Validator:
