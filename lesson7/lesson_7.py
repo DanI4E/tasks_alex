@@ -147,8 +147,10 @@ def main():
               f"Первая попытка ввода данных была в {first_attempt.strftime('%H:%M:%S')}. "
               f"Ты ввел(а) корректные данные c №{counter} попытки в {data.time.strftime('%H:%M:%S')}.\n"
               f"Разница времени между первой и последней попыткой ввода данных: {format_timedelta(time_difference)}")
-        guess_number_game()
+        
         break
+
+    guess_number_game()
 
 if __name__ == '__main__':
     main()
