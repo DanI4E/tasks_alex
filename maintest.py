@@ -63,16 +63,10 @@
 
 # d = reduce(lambda x,y: x+y,map(lambda x:x+x,filter(lambda x: (x>=3), int(input('Проверь свою удачу. Введи число от 0 до 10: ')))))
 # print(d)
-# n = 0
+n = 0
 
-# with open("C:/Python/Projects/lessons/lesson9/fauth.txt", "r") as f:
-#     for i in f.readlines():
-#         if i == 3:
-#             n = f.readline()
-
-    
-    
-#     print(n)
+# with open("auth22.txt", "r") as f:
+#     print(f.readlines()[3])
 
 
 # with open("C:/Python/Projects/lessons/lesson9/auth1.txt", "w") as f:
@@ -85,7 +79,7 @@
 
 
 
-# m = open("C:/Python/Projects/lessons/lesson9/auth.txt", "r")
+# m = open("C:/Python/Projects/lessons/lesson9/auth22.txt", "r")
 
 # print(m.readlines())
 
@@ -94,18 +88,26 @@
 
 # def _is_auth_file_exist():
 #     try:
-#         with open("C:/Python/Projects/lessons/lesson9/auth.txt"):
+#         with open("C:/Python/Projects/lessons/lesson9/auth22.txt"):
 #             return True
 #     except Exception:
 #         return False
     
 # print(_is_auth_file_exist())
 
-from authenticator import Authenticator
-import random
-from exceptions import ValidateError
 
+from authenticator import Authenticator
 
 authenticator = Authenticator()
 
-print(bool(authenticator.login))
+print(authenticator.__init__('admin', '1235'))
+print(f'{authenticator.login}\n{authenticator._password}\n{authenticator.last_success_login_at}\n{authenticator.errors_count}')
+
+a = input('Введите логин: ')
+b = input('Введите пароль: ')
+print(authenticator.authorize(a, b))
+
+
+# print(authenticator.registrate(a, b))
+
+# print(bool(authenticator.login))
