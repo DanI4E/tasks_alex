@@ -16,7 +16,7 @@ class Authenticator:
     def _is_auth_file_exist(self) -> bool:
         """Проверка существует ли файл auth.txt в корне проекта"""
 
-        is_file_exist = os.path.exists("auth12.txt")
+        is_file_exist = os.path.exists("auth.txt")
         if is_file_exist:
             return True
 
@@ -58,7 +58,7 @@ class Authenticator:
             self.errors_count += 1
             raise RegistrationError("Ошибка регистрации")
 
-        with open("auth12.txt", "a") as f:
+        with open("auth.txt", "a") as f:
             f.write(login + '\n')
             f.write(password + '\n')
             f.write(datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S") + '\n')
