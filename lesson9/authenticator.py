@@ -1,15 +1,15 @@
-import os.path
+import os
+from typing import Optional
 from exceptions import AuthorizationError, RegistrationError
 from datetime import datetime
 
 
 class Authenticator:
-    def __init__(self, login: str | None = None, _password: str | None = None,
-                 last_success_login_at: datetime | None = None, errors_count: int = 0):
-        self.login = login
-        self._password = _password
-        self.last_success_login_at = last_success_login_at
-        self.errors_count = errors_count
+    def __init__(self):
+        self.login: str | None = None
+        self._password: Optional[str] = None
+        self.last_success_login_at: Optional[datetime] = None
+        self.errors_count: int = 0
         if self._is_auth_file_exist():
             self._read_auth_file()
 
@@ -37,7 +37,7 @@ class Authenticator:
         with open("auth.txt", "w") as f:
             f.write(self.login + '\n')
             f.write(self._password + '\n')
-            f.write(datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S") + '\n')
+            f.write(self.last_success_login_at + '\n')
             f.write(str(self.errors_count))
 
     def authorize(self, login: str, password: str):
@@ -47,7 +47,7 @@ class Authenticator:
             self.errors_count += 1
             raise AuthorizationError("Логин и/или пароль не соответствуют")
 
-        # self.errors_count = 0
+        self.last_success_login_at = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         self._update_auth_file()
         return "Вы авторизировались"
 
@@ -58,8 +58,8 @@ class Authenticator:
             self.errors_count += 1
             raise RegistrationError("Ошибка регистрации")
 
-        with open("auth.txt", "a") as f:
-            f.write(login + '\n')
-            f.write(password + '\n')
-            f.write(datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S") + '\n')
-            f.write(str(self.errors_count))
+
+        self.login = login
+        self._password = password
+        self.last_success_login_at = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        self._update_auth_file()
