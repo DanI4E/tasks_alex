@@ -74,20 +74,25 @@ def main():
         login = input('Введите логин: ').strip()
         password = input('Введите пароль: ').strip()
 
-        try:
-            if text == 'Необходимо пройти регистрацию':
+        if text == 'Необходимо пройти регистрацию':
+            try:
                 authenticator.registrate(login, password)
-                info = "Вы зарегистрировались!"
-            else:
+                print("Вы зарегистрировались!")
+
+            except Exception as e:
+                print(f"Еще раз, {e}")
+                continue
+        else:
+            try:
                 authenticator.authorize(login, password)
-                info = (f"Привет {login.title()}! Последняя успешная авторизация в {authenticator.last_success_login_at}."
-                        f"\nВы пытались {authenticator.errors_count} раз войти в приложение с ошибкой авторизации.")
+                print(f"Привет {login.title()}! Последняя успешная авторизация в {authenticator.last_success_login_at}."
+                    f"\nВы пытались {authenticator.errors_count} раз войти в приложение с ошибкой авторизации.")
 
-            print(info)
-
-        except Exception as e:
-            print(f"Еще раз, {e}")
-            continue
+            except Exception as e:
+                print(f"Еще раз, {e}")
+                continue
+        # else:
+        #     break
 
         break
 
