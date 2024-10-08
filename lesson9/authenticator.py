@@ -28,7 +28,7 @@ class Authenticator:
         with open("auth.txt", "r") as f:
             self.login = f.readline().strip()
             self._password = f.readline().strip()
-            self.last_success_login_at = f.readline().strip()
+            self.last_success_login_at = datetime.fromisoformat(f.readline().strip())
             self.errors_count = int(f.readline().strip())
 
     def _update_auth_file(self):
