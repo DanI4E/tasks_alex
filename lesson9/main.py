@@ -72,8 +72,6 @@ def auth_or_reg(func):
 def main():
     """ Выполнения функций ввода имени, ввода возраста и других функций """
 
-    authenticator = Authenticator()
-
     if authenticator.login:
         text = 'Для авторизации необходимо ввести логин и пароль'
     else:
@@ -108,4 +106,5 @@ def main():
 
 
 if __name__ == '__main__':
+    authenticator = Authenticator()
     main()
