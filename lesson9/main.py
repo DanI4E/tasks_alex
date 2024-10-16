@@ -62,9 +62,8 @@ def auth_or_reg(func):
     """Декоратор принимает функцию func(), выходит из декоратора при достижении функции значения True"""
 
     def wrapper():
-        while True:
-            if func():
-                break
+        while not func():
+            pass
     return wrapper
 
 
