@@ -29,7 +29,7 @@ class Authenticator:
 
             self.email = reading_file['email']
             self._password = reading_file['password']
-            self.last_success_login_at = reading_file['last_success_login_at'] # datetime.fromisoformat(f.readline().strip())
+            self.last_success_login_at = datetime.fromisoformat(reading_file['last_success_login_at']) # datetime.fromisoformat(f.readline().strip())
             self.errors_count = int(reading_file['errors_count'])
 
     def _update_auth_file(self):
@@ -52,8 +52,8 @@ class Authenticator:
             self.errors_count += 1
             raise AuthorizationError("Email не соответствуют")
 
-        # для сериализации datetime в json надо объект datetime перевести в строку, перевожу с помощью strftime()
-        self.last_success_login_at = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        # для сериализации datetime в json надо объект datetime перевести в iso формат, перевожу с помощью isoformat()
+        self.last_success_login_at = datetime.utcnow().isoformat(sep=' ', timespec='seconds')
         self._update_auth_file()
         return "Вы авторизировались"
 
@@ -67,5 +67,5 @@ class Authenticator:
 
         self.email = email
         self._password = password
-        self.last_success_login_at = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        self.last_success_login_at = datetime.utcnow().isoformat(sep=' ', timespec='seconds')
         self._update_auth_file()
