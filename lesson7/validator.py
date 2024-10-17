@@ -62,3 +62,5 @@ class Validator:
         self._validate_name()
         self._validate_age()
         self._validate_null()
+        print(
+            f'{self.data_history.append(data)}\n{self._validate_name()}\n{self._validate_age()}\n{self._validate_null()}')

@@ -1,6 +1,7 @@
 """Lesson 9"""
 
 from authenticator import Authenticator
+from validator import Validator
 import random
 
 
@@ -71,19 +72,21 @@ def auth_or_reg(func):
 def main():
     """ Выполнения функций ввода имени, ввода возраста и других функций """
 
-    if authenticator.login:
-        text = 'Для авторизации необходимо ввести логин и пароль'
+    if authenticator.email:
+        text = 'Для авторизации необходимо ввести email и пароль'
     else:
         text = 'Необходимо пройти регистрацию'
 
     print(text)
 
-    login = input('Введите логин: ').strip()
+    email = input('Введите email: ').strip()
     password = input('Введите пароль: ').strip()
 
     if text == 'Необходимо пройти регистрацию':
         try:
-            authenticator.registrate(login, password)
+            validate_email = validate.validate_email(email)
+            validate_password = validate.validate_password(password)
+            authenticator.registrate(validate_email, validate_password)
             print("Вы зарегистрировались!")
 
         except Exception as e:
@@ -91,9 +94,11 @@ def main():
             return None
     else:
         try:
-            authenticator.authorize(login, password)
-            print(f"Привет {login.title()}! Последняя успешная авторизация в {authenticator.last_success_login_at}."
-                  f"\nВы пытались {authenticator.errors_count} раз войти в приложение с ошибкой авторизации.")
+            if validate.password_comparison(password):
+                authenticator.authorize(email, password)
+                print(f"Привет {email.title()}! Последняя успешная авторизация в {authenticator.last_success_login_at}."
+                      f"\nВы пытались {authenticator.errors_count} раз войти в приложение с ошибкой авторизации.")
+
 
         except Exception as e:
             print(f"Еще раз, {e}")
@@ -105,5 +110,6 @@ def main():
 
 
 if __name__ == '__main__':
+    validate = Validator()
     authenticator = Authenticator()
     main()

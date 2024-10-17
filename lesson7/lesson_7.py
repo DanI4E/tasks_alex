@@ -129,7 +129,7 @@ def main():
         enter_age = input('Введите возраст: ')
 
         data = DataWithDate(enter_name, enter_age)
-
+        # print(f'{self.data_history.append(data)}\n{self._validate_name()}\n{self._validate_age()}\n{self._validate_null()})
         if counter == 1:
             first_attempt = data.time
 
