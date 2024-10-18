@@ -81,7 +81,8 @@ def main():
         try:
             if validate.password_comparison(password):
                 authenticator.authorize(email, password)
-                print(f"Привет {email}! Последняя успешная авторизация в {authenticator.last_success_login_at}."
+                print(f"Привет {email}! Последняя успешная авторизация в "
+                      f"{authenticator.last_success_login_at.strftime('%d-%m-%Y %H:%M:%S')}."
                       f"\nВы пытались {authenticator.errors_count} раз войти в приложение с ошибкой авторизации.")
 
 
