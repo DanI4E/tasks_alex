@@ -39,7 +39,7 @@ class Authenticator:
             data = {
                 "email" : self.email,
                 "password": self._password,
-                "last_success_login_at" : self.last_success_login_at.isoformat(sep=' ', timespec='seconds'),
+                "last_success_login_at" : self.last_success_login_at.isoformat(),
                 "errors_count": self.errors_count
             }
 
