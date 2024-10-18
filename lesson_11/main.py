@@ -3,7 +3,8 @@
 from authenticator import Authenticator
 from validator import Validator
 import random
-
+import datetime
+import time
 
 __author__ = "Danil Cherinov"
 
@@ -43,6 +44,10 @@ def guess_number_game():
 #     hours, minutes = minutes // 60, minutes % 60
 #     return '{:d}:{:02d}:{:02d}'.format(hours, minutes, seconds)
 
+
+def format_timedelta(td):
+    """ Перевод значения timedelta к format(hours, minutes, seconds)"""
+    return td.seconds // 60
 
 def auth_or_reg(func):
     """Декоратор принимает функцию func(), выходит из декоратора при достижении функции значения True"""
@@ -99,3 +104,8 @@ if __name__ == '__main__':
     validate = Validator()
     authenticator = Authenticator()
     main()
+    time.sleep(60)
+    print(f"Время последней авторизации: {authenticator.last_success_login_at.strftime('%d-%m-%Y %H:%M:%S')}\n")
+    delta_minute = datetime.datetime.utcnow() - authenticator.last_success_login_at
+    print(f"Кол-во минут разницы между текущем временем и последней авторизацией: {format_timedelta(delta_minute)} минут")
+
