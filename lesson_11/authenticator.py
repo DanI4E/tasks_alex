@@ -39,7 +39,7 @@ class Authenticator:
             data = {
                 "email" : self.email,
                 "password": self._password,
-                "last_success_login_at" : self.last_success_login_at,
+                "last_success_login_at" : self.last_success_login_at.isoformat(sep=' ', timespec='seconds'),
                 "errors_count": self.errors_count
             }
 
@@ -53,7 +53,7 @@ class Authenticator:
             raise AuthorizationError("Email не соответствуют")
 
         # для сериализации datetime в json надо объект datetime перевести в iso формат, перевожу с помощью isoformat()
-        self.last_success_login_at = datetime.utcnow().isoformat(sep=' ', timespec='seconds')
+        self.last_success_login_at = datetime.utcnow()
         self._update_auth_file()
         return "Вы авторизировались"
 
@@ -67,5 +67,5 @@ class Authenticator:
 
         self.email = email
         self._password = password
-        self.last_success_login_at = datetime.utcnow().isoformat(sep=' ', timespec='seconds')
+        self.last_success_login_at = datetime.utcnow()
         self._update_auth_file()
