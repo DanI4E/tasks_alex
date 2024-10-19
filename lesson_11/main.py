@@ -3,8 +3,8 @@
 from authenticator import Authenticator
 from validator import Validator
 import random
-import datetime
-import time
+# import datetime
+# import time
 
 __author__ = "Danil Cherinov"
 
@@ -62,6 +62,10 @@ def auth_or_reg(func):
 def main():
     """ Выполнения функций ввода имени, ввода возраста и других функций """
 
+
+    authenticator = Authenticator()
+    validate = Validator()
+
     if authenticator.email:
         text = 'Для авторизации необходимо ввести email и пароль'
     else:
@@ -84,8 +88,7 @@ def main():
             return None
     else:
         try:
-            if validate.password_comparison(password):
-                authenticator.authorize(email, password)
+            if authenticator.authorize(email, password):
                 print(f"Привет {email}! Последняя успешная авторизация в "
                       f"{authenticator.last_success_login_at.strftime('%d-%m-%Y %H:%M:%S')}."
                       f"\nВы пытались {authenticator.errors_count} раз войти в приложение с ошибкой авторизации.")
@@ -101,11 +104,9 @@ def main():
 
 
 if __name__ == '__main__':
-    validate = Validator()
-    authenticator = Authenticator()
     main()
-    time.sleep(60)
-    print(f"Время последней авторизации: {authenticator.last_success_login_at.strftime('%d-%m-%Y %H:%M:%S')}\n")
-    delta_minute = datetime.datetime.utcnow() - authenticator.last_success_login_at
-    print(f"Кол-во минут разницы между текущем временем и последней авторизацией: {format_timedelta(delta_minute)} минут")
+    # time.sleep(60)
+    # print(f"Время последней авторизации: {authenticator.last_success_login_at.strftime('%d-%m-%Y %H:%M:%S')}\n")
+    # delta_minute = datetime.datetime.utcnow() - authenticator.last_success_login_at
+    # print(f"Кол-во минут разницы между текущем временем и последней авторизацией: {format_timedelta(delta_minute)} минут")
 

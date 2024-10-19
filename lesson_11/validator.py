@@ -1,4 +1,3 @@
-import json
 import re
 import hashlib
 from exceptions import RegistrationError, AuthorizationError
@@ -26,12 +25,3 @@ class Validator:
         if re.search(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email):
             return email
         raise RegistrationError("Email введен неверно")
-
-
-    def password_comparison(self, password: str):
-        """Сравнение хешированного пароля с введенным"""
-
-        with open("auth.json") as f:
-            if self.validate_password(password) == json.loads(f.read())['password']:
-                return True
-            raise AuthorizationError("Неверный пароль")

@@ -3,6 +3,7 @@ import os
 from typing import Optional
 from exceptions import AuthorizationError, RegistrationError
 from datetime import datetime
+from validator import Validator
 
 
 
@@ -39,30 +40,33 @@ class Authenticator:
             data = {
                 "email" : self.email,
                 "password": self._password,
+                # для сериализации datetime в json надо объект datetime перевести в iso формат, перевожу с помощью isoformat()
                 "last_success_login_at" : self.last_success_login_at.isoformat(),
                 "errors_count": self.errors_count
             }
 
             f.write(json.dumps(data))
 
+
     def authorize(self, email: str, password: str):
         """Метод авторизации. Сравнивает введенные логин и пароль с логином и паролем в файле auth.txt"""
 
-        if self.email != email or self.email == None:
-            self.errors_count += 1
-            raise AuthorizationError("Email не соответствуют")
+        with open("auth.json") as f:
+            if self.email != email or Validator().validate_password(password) != json.loads(f.read())['password'] or self.email is None:
+                self.errors_count += 1
+                raise AuthorizationError("Email и/или password не соответствуют.")
 
-        # для сериализации datetime в json надо объект datetime перевести в iso формат, перевожу с помощью isoformat()
+
         self.last_success_login_at = datetime.utcnow()
         self._update_auth_file()
-        return "Вы авторизировались"
+        return "Вы авторизировались."
 
     def registrate(self, email: str, password: str):
         """Метод регистрации нового пользователя"""
 
         if self._is_auth_file_exist() or self.email is not None:
             self.errors_count += 1
-            raise RegistrationError("Ошибка регистрации")
+            raise RegistrationError("ошибка регистрации.")
 
 
         self.email = email
